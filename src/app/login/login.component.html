@@ -1,0 +1,33 @@
+<div class="login-card">
+  <h2 class="welcome">Bienvenue !</h2> <!-- Message de bienvenue -->
+  <h2 class="form-label" align="center">Laboratoire Recherche Informatique</h2>
+
+  <form (ngSubmit)="login()">
+    <div class="input-group">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" name="email" [(ngModel)]="email" required />
+        <mat-icon matPrefix>person</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="input-group">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required />
+        <mat-icon matPrefix>lock</mat-icon>
+      </mat-form-field>
+    </div>
+    <div *ngIf="errorMessage" class="alert-error">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+    <button mat-raised-button type="submit" class="full-width">
+      Se connecter
+    </button>
+  </form>
+
+  <div class="version">
+    <h5>© Laboratoire Recherche Informatique 2026</h5>
+  </div>
+</div>

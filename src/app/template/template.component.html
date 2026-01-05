@@ -1,0 +1,78 @@
+<mat-sidenav-container>
+  <!-- The side nav -->
+  <mat-sidenav #drawer fixedInViewport="true" mode="over" opened="false" style="width: 230px;" [hidden]="!showNavbar">
+    <mat-toolbar color="primary" fxLayout fxLayoutGap="16px">
+      <mat-icon>school</mat-icon>
+      <span> Laboratoire </span>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link"><mat-icon>dashboard</mat-icon><span>
+          Dashboard</span></a>
+      <a mat-list-item routerLink="/member"
+        routerLinkActive="active-link"><mat-icon>supervised_user_circle</mat-icon><span> Members</span></a>
+      <a mat-list-item routerLink="/outils" routerLinkActive="active-link"><mat-icon>settings</mat-icon><span>
+          Outils</span></a>
+      <a mat-list-item routerLink="/publication" routerLinkActive="active-link"><mat-icon>gradient</mat-icon><span>
+          Publications</span></a>
+      <a mat-list-item routerLink="/events" routerLinkActive="active-link"><mat-icon>event_note</mat-icon><span>
+          Evénements</span></a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Side nav content-->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <div fxFlex fxLayout fxLayoutAlign="start center">
+        <button *ngIf="showNavbar" mat-button (click)="drawer.toggle()" class="toolbar-button custom-menu-btn">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>menu</mat-icon>
+            <span class="lab-text">Lab</span>
+          </div>
+        </button>
+      </div>
+
+      <div fxFlex></div>
+      <div class="toolbar-separator"></div>
+
+      <!-- Le menu utilisateur reste toujours visible -->
+      <button mat-icon-button routerLink="/home" matTooltip="Retour à l'accueil" class="home-button">
+        <mat-icon>home</mat-icon>
+      </button>
+
+      <div class="toolbar-separator"></div>
+      <button [matMenuTriggerFor]="userMenu" class="toolbar-button" mat-button
+        style="margin-left: 85%; margin-right: 5%;">
+        <div fxLayout="row" fxLayoutAlign="center center">
+
+          <img [src]="(user && user.photo) ? getSafePhoto(user.photo) : 'assets/photos/default-avatar.jpg'"
+            class="avatar" style="border-radius: 50%; width: 40px; height: 40px; object-fit: cover;" />
+
+          <mat-icon *ngIf="!user?.photo">account_circle</mat-icon>
+
+          <span class="username mx-12" fxHide fxShow.gt-sm>
+            {{ user?.name || user?.displayName }}
+          </span>
+
+          <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+        </div>
+      </button>
+
+      <mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="modern-menu">
+        <button mat-menu-item routerLink="/memberProfile" class="menu-item-flex">
+          <mat-icon>account_box</mat-icon>
+          <span>Profile</span>
+        </button>
+
+        <button mat-menu-item (click)="logout()" class="menu-item-flex">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="content mt-80 mx-16">
+      <br>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

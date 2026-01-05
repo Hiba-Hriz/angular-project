@@ -1,0 +1,169 @@
+{
+  "members": [
+    {
+      "id": "456",
+      "cin": "1234",
+      "nom": "Ben Ali",
+      "prenom": "Sami",
+      "password": "123",
+      "dateNaissance": "1990-05-13",
+      "role": "EnseignantChercheur",
+      "cv": "assets/cv/sami.pdf",
+      "photo": "assets/photos/sami.jpg",
+      "email": "sami.benali@lab.tn",
+      "grade": "Professeur",
+      "etablissement": "ENIS",
+      "dateInscription": null,
+      "diplome": null
+    },
+    {
+      "id": "457",
+      "cin": "87654321",
+      "nom": "Trabelsi",
+      "prenom": "Amel",
+      "password": "456",
+      "dateNaissance": "1997-10-20",
+      "role": "Etudiant",
+      "cv": "assets/cv/amel.pdf",
+      "photo": "assets/photos/amel.jpg",
+      "email": "amel.trabelsi@lab.tn",
+      "grade": null,
+      "etablissement": null,
+      "dateInscription": "2011-11-11",
+      "diplome": "Licence Informatique"
+    },
+    {
+      "id": "458",
+      "cin": "8888",
+      "nom": "Hriz",
+      "prenom": "Hiba",
+      "dateNaissance": "2002-03-11",
+      "role": "Etudiant",
+      "cv": "assets/cv/amel.pdf",
+      "photo": "assets/photos/amel.jpg",
+      "email": "hiba.hriz@enis.tn",
+      "grade": null,
+      "etablissement": null,
+      "dateInscription": "2020-12-12",
+      "diplome": "Génie informatique",
+      "publications": [
+        {
+          "id": "1",
+          "membreIds": [
+            "456",
+            "458"
+          ],
+          "type": "Article",
+          "titre": "Introduction à Angular",
+          "lien": "https://v17.angular.io/docs",
+          "date": "2025-12-21T00:00:00.000Z",
+          "sourcepdf": "/assets/publications/angular_intro.pdf"
+        }
+      ],
+      "outils": [
+        {
+          "date": "2022-02-22T00:00:00.000Z",
+          "source": "/assets/outils/outil1.json",
+          "membreId": "458",
+          "id": "1"
+        },
+        {
+          "id": "2",
+          "date": "2025-12-22T00:00:00.000Z",
+          "source": "/assets/outils/outil2.json",
+          "membreId": "458"
+        }
+      ],
+      "password": "5555"
+    }
+  ],
+  "publications": [
+    {
+      "id": "1",
+      "membreIds": [
+        "456",
+        "458"
+      ],
+      "type": "Article",
+      "titre": "Introduction à Angular",
+      "lien": "https://v17.angular.io/docs",
+      "date": "2025-12-21",
+      "sourcepdf": "/assets/publications/angular_intro.pdf"
+    },
+    {
+      "id": "2",
+      "membreIds": [
+        "456",
+        "457"
+      ],
+      "type": "Un Chapitre de livre",
+      "titre": "Programmation : Web Avancée",
+      "lien": "https://www.bestcours.com/programmation-web-avancee-cote-client",
+      "date": "2024-11-15",
+      "sourcepdf": "/assets/publications/web_avance.pdf"
+    },
+    {
+      "type": "typ1vdfvg",
+      "titre": "titre1",
+      "lien": "lien1",
+      "date": "2011-11-11",
+      "sourcepdf": "s1",
+      "membreIds": [
+        "457",
+        "458"
+      ],
+      "id": "a7fc"
+    }
+  ],
+  "outils": [
+    {
+      "date": "2022-02-22",
+      "source": "/assets/outils/outil1.json",
+      "membreId": "458",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "date": "2025-12-22",
+      "source": "/assets/outils/outil2.json",
+      "membreId": "458"
+    }
+  ],
+  "Evts": [
+    {
+      "titre": "ev1",
+      "dateDebut": "2025-12-01T23:00:00.000Z",
+      "dateFin": "2025-12-05T23:00:00.000Z",
+      "lieu": "l1",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "titre": "even2",
+      "dateDebut": "10/09",
+      "dateFin": "10/20",
+      "lieu": "lieu2"
+    },
+    {
+      "id": "3",
+      "titre": "even3",
+      "dateDebut": "12/08",
+      "dateFin": "12/08",
+      "lieu": "lieu3"
+    },
+    {
+      "id": "a70f",
+      "titre": "titre4",
+      "dateDebut": "11/26",
+      "dateFin": "11/28",
+      "lieu": "lieu4"
+    },
+    {
+      "titre": "ev5",
+      "dateDebut": "2025-12-03T23:00:00.000Z",
+      "dateFin": "2025-12-10T23:00:00.000Z",
+      "lieu": "l5",
+      "id": "c40b"
+    }
+  ]
+}

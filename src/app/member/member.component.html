@@ -1,0 +1,191 @@
+<div class="page-container">
+
+  <mat-accordion class="filter-section">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> <mat-icon>filter_list</mat-icon> Filtres de recherche </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="filter-grid" [formGroup]="filterForm">
+        <div class="filter-group">
+          <h4>Membres</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Grade</mat-label>
+            <input matInput formControlName="grade" placeholder="Ex: Professeur">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Établissement</mat-label>
+            <input matInput formControlName="etablissement" placeholder="Ex: ENIS">
+          </mat-form-field>
+        </div>
+
+        <div class="filter-group">
+          <h4>Publications</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <input matInput formControlName="pubType" placeholder="Ex: Article">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Année</mat-label>
+            <input matInput formControlName="pubYear" placeholder="Ex: 2024">
+          </mat-form-field>
+        </div>
+
+        <div class="filter-actions">
+          <button mat-flat-button class="btn-apply" (click)="applyFilter()">
+            <mat-icon>search</mat-icon> Appliquer
+          </button>
+          <button mat-stroked-button class="btn-reset" (click)="resetFilter()">
+            <mat-icon>restart_alt</mat-icon> Réinitialiser
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="action-bar">
+    <h2 class="title-gradient">Membres du Laboratoire</h2>
+    <button *ngIf="isAdmin" mat-fab extended class="btn-create" routerLink="/create">
+      <mat-icon>add_circle</mat-icon>
+      <span>Nouveau Membre</span>
+    </button>
+
+  </div>
+
+  <div class="table-responsive mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="cin">
+        <th mat-header-cell *matHeaderCellDef> Membre </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="user-profile">
+            <img [src]="element.photo || 'assets/photos/default-avatar.jpg'" class="avatar shadow-sm" />
+            <div class="user-info">
+              <span class="user-name">{{element.name}} {{element.prenom}}</span>
+              <small class="user-sub">
+                <strong>DATE NAISSANCE:</strong> {{element.dateNaissance | date:'dd/MM/yyyy'}}
+              </small>
+              <small class="user-sub email-line">
+                {{element.email}}
+              </small>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Statut / Grade </th>
+        <td mat-cell *matCellDef="let element">
+          <span class="badge" [ngClass]="element.type">{{element.type}}</span><br>
+          <small *ngIf="element.type === 'EnseignantChercheur'">{{element.grade}} - {{element.etablissement}}</small>
+          <small *ngIf="element.type === 'Etudiant'">{{element.diplome}} (Inscrit: {{element.dateInscription |
+            date}})</small>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="publications">
+        <th mat-header-cell *matHeaderCellDef> Publications </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="scroll-container">
+            <ng-container *ngIf="element.publications?.length; else noPubs">
+              <div class="mini-item" *ngFor="let pub of element.publications">
+
+                <mat-icon class="type-icon">description</mat-icon>
+
+                <div class="info-wrapper">
+                  <span class="truncate-text" [matTooltip]="pub.titre">{{ pub.titre }}</span>
+                  <small class="sub-info">
+                    {{ pub.type }} <span style="color: #26a69a;">•</span> {{ pub.date | date:'yyyy' }}
+                  </small>
+                </div>
+
+                <div class="item-actions">
+                  <button mat-icon-button color="primary" matTooltip="Voir" (click)="viewPublication(pub)">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button color="accent" matTooltip="Télécharger"
+                    (click)="downloadFile(pub.sourcePDF, pub.titre + '.pdf')">
+                    <mat-icon>download</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ng-container>
+            <ng-template #noPubs><span class="text-muted">Aucune publication</span></ng-template>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="outils">
+        <th mat-header-cell *matHeaderCellDef> Outils </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="scroll-container">
+            <ng-container *ngIf="element.outils?.length; else noTool">
+              <div class="mini-item" *ngFor="let outil of element.outils">
+                <mat-icon class="type-icon">build</mat-icon>
+
+                <div class="info-wrapper">
+                  <span class="truncate-text">ID: {{outil.id}}</span>
+                  <small class="sub-info">Créé le {{ outil.date | date:'dd/MM/yyyy' }}</small>
+                </div>
+
+                <button mat-icon-button color="accent" (click)="downloadFile(outil.source, 'outil.json')">
+                  <mat-icon>download</mat-icon>
+                </button>
+              </div>
+            </ng-container>
+            <ng-template #noTool><span class="text-muted">-</span></ng-template>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cv">
+        <th mat-header-cell *matHeaderCellDef class="header-center"> Document </th>
+        <td mat-cell *matCellDef="let element" class="cell-center">
+
+          <button *ngIf="element.cv && element.cv.length > 500" mat-mini-fab class="btn-download"
+            (click)="downloadCV(element.cv, 'CV_' + element.name)" matTooltip="Télécharger le CV">
+            <mat-icon>file_download</mat-icon>
+          </button>
+
+          <div *ngIf="!element.cv || element.cv.length <= 500" class="no-data">
+            <mat-icon>block</mat-icon>
+            <span>Indisponible</span>
+          </div>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button class="btn-more" [matMenuTriggerFor]="menu">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="modern-menu">
+            <button mat-menu-item routerLink="/{{element.id}}/edit" class="menu-edit">
+              <mat-icon>edit_note</mat-icon>
+              <span>Modifier</span>
+            </button>
+            <button mat-menu-item [routerLink]="['/', element.id]" class="menu-view">
+              <mat-icon>visibility</mat-icon>
+              <span>Détails</span>
+            </button>
+            <div mat-divider></div>
+            <button mat-menu-item (click)="delete(element.id)" class="menu-delete">
+              <mat-icon>delete_outline</mat-icon>
+              <span>Supprimer</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row
+        *matHeaderRowDef="isAdmin ? ['cin', 'type', 'publications', 'outils', 'cv', 'actions'] : ['cin', 'type', 'publications', 'outils', 'cv']">
+      </tr>
+      <tr mat-row
+        *matRowDef="let row; columns: isAdmin ? ['cin', 'type', 'publications', 'outils', 'cv', 'actions'] : ['cin', 'type', 'publications', 'outils', 'cv'];">
+      </tr>
+
+    </table>
+  </div>
+</div>

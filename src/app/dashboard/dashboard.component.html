@@ -1,0 +1,49 @@
+<div class="dashboard-container">
+    <div class="stats-grid">
+        <mat-card class="stat-card members">
+            <mat-icon>people</mat-icon>
+            <div class="stat-content">
+                <mat-card-title>Membres</mat-card-title>
+                <div class="stat-value">{{Nb_Members}}</div>
+            </div>
+        </mat-card>
+
+        <mat-card class="stat-card events">
+            <mat-icon>event</mat-icon>
+            <div class="stat-content">
+                <mat-card-title>Événements</mat-card-title>
+                <div class="stat-value">{{Nb_Events}}</div>
+            </div>
+        </mat-card>
+
+        <mat-card class="stat-card tools">
+            <mat-icon>build</mat-icon>
+            <div class="stat-content">
+                <mat-card-title>Outils</mat-card-title>
+                <div class="stat-value">{{Nb_Tools}}</div>
+            </div>
+        </mat-card>
+
+        <mat-card class="stat-card articles">
+            <mat-icon>description</mat-icon>
+            <div class="stat-content">
+                <mat-card-title>Articles</mat-card-title>
+                <div class="stat-value">{{Nb_Articles}}</div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div class="charts-container">
+        <mat-card class="chart-wrapper">
+            <h3>Évolution des activités</h3>
+            <canvas baseChart [type]="'line'" [datasets]="chartData" [labels]="chartLabels"
+                [options]="chartOptions"></canvas>
+        </mat-card>
+
+        <mat-card class="chart-wrapper">
+            <h3>Répartition par type</h3>
+            <canvas baseChart [type]="'pie'" [datasets]="chartData" [labels]="chartLabels"
+                [options]="chartOptions"></canvas>
+        </mat-card>
+    </div>
+</div>

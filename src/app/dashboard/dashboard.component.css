@@ -1,0 +1,96 @@
+.dashboard-container {
+    padding: 24px;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+/* Grille des petites cartes */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.stat-content mat-card-title {
+    font-size: 14px !important;
+    color: #64748b;
+    margin: 0;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e293b;
+}
+
+/* Couleurs spécifiques par catégorie */
+.members mat-icon {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.events mat-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.tools mat-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.articles mat-icon {
+    background: #f3e8ff;
+    color: #9333ea;
+}
+
+/* Section des Graphiques */
+.charts-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* Le line chart est plus large que le pie chart */
+    gap: 20px;
+}
+
+.chart-wrapper {
+    padding: 20px;
+    border-radius: 12px;
+    background: white;
+}
+
+.chart-wrapper h3 {
+    margin-bottom: 20px;
+    color: #475569;
+    font-weight: 500;
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 960px) {
+    .charts-container {
+        grid-template-columns: 1fr;
+    }
+}

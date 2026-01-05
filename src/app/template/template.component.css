@@ -1,0 +1,175 @@
+/* --- Conteneur Principal --- */
+mat-sidenav-container {
+    height: 100vh;
+    /* On force le fond gris très léger pour faire ressortir les cartes blanches */
+    background-color: #f4f7f6 !important;
+}
+
+/* --- Barre latérale (Sidenav) --- */
+mat-sidenav {
+    background: white !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.02);
+
+    mat-toolbar {
+        /* Changement : Dégradé harmonisé avec tes titres (Bleu foncé vers Vert) */
+        background: linear-gradient(45deg, #2c3e50, #26a69a) !important;
+        color: white !important;
+        font-weight: 700;
+        font-size: 1.2rem;
+        height: 64px;
+
+        mat-icon {
+            margin-right: 10px;
+            color: white !important;
+        }
+    }
+}
+
+/* --- Liste de Navigation --- */
+mat-nav-list {
+    padding-top: 15px !important;
+
+    a[mat-list-item] {
+        margin: 8px 12px;
+        border-radius: 12px;
+        height: 48px !important;
+        width: auto !important;
+        color: #546e7a !important;
+        transition: all 0.3s ease;
+
+        mat-icon {
+            margin-right: 16px;
+            color: #78909c !important;
+        }
+
+        /* Hover : On utilise le vert de ta charte */
+        &:hover {
+            background-color: rgba(38, 166, 154, 0.08) !important;
+            color: #26a69a !important;
+
+            mat-icon {
+                color: #26a69a !important;
+            }
+        }
+
+        /* Actif : Fond vert comme ton bouton 'Appliquer' */
+        &.active-link {
+            background-color: #26a69a !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(38, 166, 154, 0.3);
+
+            mat-icon {
+                color: white !important;
+            }
+        }
+    }
+}
+
+/* --- Barre Supérieure (Header principal) --- */
+/* On cible mat-sidenav-content pour être plus précis que l'inspecteur */
+mat-sidenav-content>mat-toolbar {
+    background: linear-gradient(45deg, #2c3e50, #26a69a) !important;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    color: #2c3e50 !important;
+    /* On force le bleu foncé pour le texte */
+    height: 64px;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .toolbar-button {
+        color: #2c3e50 !important;
+        /* Texte du bouton en bleu foncé */
+        font-weight: 600;
+
+        mat-icon {
+            color: #26a69a !important;
+            /* Icône menu en vert */
+        }
+    }
+}
+
+/* Style pour le bouton de menu */
+.custom-menu-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 0 12px !important;
+    /* Donne un peu d'espace sur les côtés */
+    min-width: auto !important;
+}
+
+.custom-menu-btn mat-icon {
+    margin-right: 8px !important;
+    /* Espace entre l'icône et le texte Lab */
+    vertical-align: middle;
+}
+
+/* Force l'alignement flexbox dans les items du menu */
+.menu-item-flex {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    /* Espace fixe entre l'icône et le texte */
+}
+
+/* On s'assure que l'icône n'a pas de marges bizarres qui décalent le texte */
+.menu-item-flex mat-icon {
+    margin: 0 !important;
+    color: #26a69a;
+    /* Utilise votre vert pour les icônes du menu */
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style du texte à côté de l'icône */
+.menu-item-flex span {
+    color: #2c3e50;
+    /* Votre bleu foncé */
+    font-weight: 500;
+}
+
+.lab-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+/* --- Avatar et Menu Utilisateur --- */
+.avatar {
+    border: 2px solid #26a69a !important;
+    /* Bordure verte */
+    padding: 2px;
+    background: white;
+    border-radius: 50%;
+}
+
+.username {
+    color: #2c3e50 !important;
+    /* Nom en bleu foncé */
+    font-weight: 600;
+}
+
+/* --- Zone de contenu --- */
+.content {
+    padding: 24px;
+    /* On s'assure que le contenu n'est pas caché sous la toolbar fixe */
+    margin-top: 10px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

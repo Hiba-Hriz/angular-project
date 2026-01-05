@@ -1,0 +1,19 @@
+<div class="dialog-container">
+    <h2 mat-dialog-title class="title-gradient">Confirmer la suppression</h2>
+
+    <mat-dialog-content>
+        <p class="subtitle">
+            Êtes-vous sûr de vouloir supprimer tous les éléments ?
+            Cette action est irréversible et les données ne pourront pas être récupérées.
+        </p>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="actions-footer">
+        <button mat-button mat-dialog-close class="btn-cancel">
+            Annuler
+        </button>
+        <button mat-flat-button [mat-dialog-close]="true" class="btn-confirm-delete">
+            <mat-icon>delete_forever</mat-icon> Supprimer tout
+        </button>
+    </mat-dialog-actions>
+</div>

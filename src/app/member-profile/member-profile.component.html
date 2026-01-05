@@ -1,0 +1,373 @@
+<!-- member-profile.component.html -->
+<div class="profile-wrapper">
+  <!-- Loader pendant le chargement -->
+  <div *ngIf="isLoading" class="loading">
+    <mat-spinner></mat-spinner>
+    <p>Chargement du profil...</p>
+  </div>
+
+  <!-- Message d'erreur si pas de membre -->
+  <div *ngIf="!isLoading && !member" class="error">
+    <p>Aucun profil trouvé. Veuillez vous connecter.</p>
+    <button mat-raised-button color="primary" routerLink="/login">
+      Se connecter
+    </button>
+  </div>
+
+  <!-- Contenu du profil -->
+  <div *ngIf="!isLoading && member" class="profile-container">
+    <div class="header">
+      <h2>Mon Profil</h2>
+
+    </div>
+
+    <!-- Formulaire de profil -->
+    <form *ngIf="profileForm" [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+      <mat-form-field appearance="fill">
+        <mat-label>Cin</mat-label>
+        <input matInput formControlName="cin" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="nom" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput formControlName="prenom" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Date de Naissance</mat-label>
+        <input matInput formControlName="dateNaissance" required>
+      </mat-form-field>
+      <div class="file-upload-container">
+        <label>Photo de Profil</label>
+        <div class="preview-box">
+          <img [src]="profileForm.get('photo')?.value || 'assets/photos/default-avatar.jpg'"
+            class="profile-preview-img">
+          <div class="upload-actions">
+            <input type="file" #photoInput (change)="onFileSelected($event, 'photo')" hidden accept="image/*">
+            <button type="button" mat-stroked-button (click)="photoInput.click()">
+              <mat-icon>photo_camera</mat-icon> Changer la photo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="file-upload-container">
+        <label>Curriculum Vitae (PDF)</label>
+        <div class="cv-box">
+          <mat-icon class="cv-icon">picture_as_pdf</mat-icon>
+          <div class="cv-info" *ngIf="profileForm.get('cv')?.value">
+            <span>Fichier chargé</span>
+            <button type="button" mat-button color="primary" (click)="viewCV()">
+              <mat-icon>visibility</mat-icon> Voir
+            </button>
+          </div>
+          <input type="file" #cvInput (change)="onFileSelected($event, 'cv')" hidden accept="application/pdf">
+          <button type="button" mat-stroked-button (click)="cvInput.click()">
+            <mat-icon>upload_file</mat-icon> {{ profileForm.get('cv')?.value ? 'Remplacer CV' : 'Choisir CV' }}
+          </button>
+        </div>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+
+        <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Masquer le mot de passe'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Type de Membre</mat-label>
+        <mat-select formControlName="type_mbr">
+          <mat-option value="enc">Enseignant Chercheur</mat-option>
+          <mat-option value="etd">Étudiant</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Pour EnseignantChercheur (type_mbr = 'enc') -->
+      <mat-form-field appearance="fill" *ngIf="profileForm.get('type_mbr')?.value === 'enc'">
+        <mat-label>Grade</mat-label>
+        <input matInput formControlName="grade">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="profileForm.get('type_mbr')?.value === 'enc'">
+        <mat-label>Établissement</mat-label>
+        <input matInput formControlName="etablissement">
+      </mat-form-field>
+
+      <!-- Pour Etudiant (type_mbr = 'etd') -->
+
+
+      <mat-form-field appearance="fill" *ngIf="profileForm.get('type_mbr')?.value === 'etd'">
+        <mat-label>Diplôme</mat-label>
+        <input matInput formControlName="diplome">
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button class="btn-update-profile" type="submit" [disabled]="profileForm.invalid">
+          <mat-icon>check_circle</mat-icon>
+          Mettre à jour mon profil
+        </button>
+      </div>
+    </form>
+    <div class="encadrement-section">
+      <h3>Informations d'encadrement</h3>
+
+      <div *ngIf="member.type === 'Etudiant'" class="info-box">
+        <p>
+          <strong>Mon encadrant :</strong>
+          <span *ngIf="enseignant; else noEncadrant">
+            {{ enseignant.prenom }} {{ enseignant.name }},
+            {{ enseignant.email }}
+          </span>
+        </p>
+
+        <ng-template #noEncadrant>
+          Aucun encadrant assigné
+        </ng-template>
+      </div>
+
+
+      <div *ngIf="member.type === 'EnseignantChercheur'">
+        <h3>Mes Étudiants :</h3>
+        <mat-list *ngIf="etudiants && etudiants.length > 0; else noStudents">
+          <mat-list-item *ngFor="let etd of etudiants">
+            {{ etd.prenom }} {{ etd.name }} - {{ etd.diplome }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <ng-template #noStudents>
+        <p class="no-data">Vous n'avez pas d'étudiants sous votre encadrement.</p>
+      </ng-template>
+    </div>
+    <!-- Section Publications -->
+    <div class="publications-section">
+      <h3>Mes Publications</h3>
+
+      <div *ngIf="member.pubs && member.pubs.length > 0; else noPublications">
+        <div *ngFor="let pub of member.pubs" class="publication-item">
+          <div class="publication-info">
+            <strong>{{ pub.titre }}</strong>
+            <span class="publication-meta">
+              ({{ pub.type }} - {{ pub.date | date:'dd/MM/yyyy' }})
+            </span>
+          </div>
+          <div class="publication-actions">
+            <button mat-icon-button (click)="downloadFile(pub.sourcePDF, pub.titre + '.pdf')" matTooltip="Télécharger">
+              <mat-icon>download</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openModal(pub)" matTooltip="Modifier">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deletePublication(pub.id)" matTooltip="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noPublications>
+        <p class="no-data">Aucune publication ajoutée.</p>
+      </ng-template>
+
+      <button mat-raised-button color="accent" (click)="openModal()">
+        <mat-icon>add</mat-icon>
+        Ajouter Publication
+      </button>
+    </div>
+
+    <!-- Section Outils -->
+    <div class="tools-section">
+      <h3>Mes Outils</h3>
+
+      <div *ngIf="member.outils && member.outils.length > 0; else noTools">
+        <div *ngFor="let tool of member.outils" class="tool-item">
+          <div class="tool-info">
+            <span><strong>ID:</strong> {{ tool.id }}</span>
+            <span><strong>Date:</strong> {{ tool.date | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="tool-actions">
+            <button mat-icon-button (click)="downloadTool(tool)" matTooltip="Télécharger">
+              <mat-icon>download</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="openEdit(tool.id)" matTooltip="Modifier">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button color="warn" (click)="tool.id && deleteOutil(tool.id)" matTooltip="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <ng-template #noTools>
+        <p class="no-data">Aucun outil ajouté.</p>
+      </ng-template>
+
+      <button mat-raised-button color="accent" (click)="open()">
+        <mat-icon>add</mat-icon>
+        Ajouter Outil
+      </button>
+    </div>
+    <!-- Section Événements Améliorée -->
+    <div class="events-section">
+      <h3>Mes Événements</h3>
+
+      <!-- Onglets pour différencier les types d'événements -->
+      <mat-tab-group>
+        <!-- Onglet: Événements créés/organisés -->
+        <mat-tab label="Événements Organisés">
+          <div class="tab-content">
+            <div *ngIf="member.evens && member.evens.length > 0; else noOrganizedEvents">
+              <div *ngFor="let event of member.evens" class="event-item">
+                <div class="event-info">
+                  <div class="event-title">
+                    <mat-icon class="s-18">event</mat-icon>
+                    <strong>{{ event.titre }}</strong>
+                    <span class="event-badge organized">Organisateur</span>
+                  </div>
+                  <div class="event-details">
+                    <span class="event-meta">
+                      <mat-icon class="s-14">calendar_today</mat-icon>
+                      {{ event.dateDebut | date:'dd/MM/yyyy' }} - {{ event.dateFin | date:'dd/MM/yyyy' }}
+                    </span>
+                    <span class="event-meta">
+                      <mat-icon class="s-14">location_on</mat-icon>
+                      {{ event.lieu }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="event-actions">
+                  <button mat-icon-button (click)="openEditEvent(event.id)" matTooltip="Modifier">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="deleteEvent(event.id)" matTooltip="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noOrganizedEvents>
+              <p class="no-data">Aucun événement organisé.</p>
+            </ng-template>
+          </div>
+        </mat-tab>
+
+        <!-- Onglet: Événements auxquels je participe -->
+        <mat-tab label="Événements Attribués">
+          <div class="tab-content">
+            <div *ngIf="assignedEvents && assignedEvents.length > 0; else noAssignedEvents">
+              <div *ngFor="let event of assignedEvents" class="event-item">
+                <div class="event-info">
+                  <div class="event-title">
+                    <mat-icon class="s-18">event</mat-icon>
+                    <strong>{{ event.titre }}</strong>
+                    <span class="event-badge participant">Participant</span>
+                  </div>
+                  <div class="event-details">
+                    <span class="event-meta">
+                      <mat-icon class="s-14">calendar_today</mat-icon>
+                      {{ event.dateDebut | date:'dd/MM/yyyy' }} - {{ event.dateFin | date:'dd/MM/yyyy' }}
+                    </span>
+                    <span class="event-meta">
+                      <mat-icon class="s-14">location_on</mat-icon>
+                      {{ event.lieu }}
+                    </span>
+                    <span class="event-meta" *ngIf="event.organisateur">
+                      <mat-icon class="s-14">person</mat-icon>
+                      Organisé par: {{ event.organisateur.nom }} {{ event.organisateur.prenom }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="event-actions">
+
+                  <button mat-icon-button color="warn" (click)="unsubscribeFromEvent(event.id)"
+                    matTooltip="Se désinscrire">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noAssignedEvents>
+              <p class="no-data">Vous ne participez à aucun événement.</p>
+            </ng-template>
+          </div>
+        </mat-tab>
+
+        <!-- Onglet: Tous les événements disponibles -->
+        <mat-tab label="Événements Disponibles">
+          <div class="tab-content">
+            <div class="search-bar">
+              <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Rechercher un événement</mat-label>
+                <input matInput [(ngModel)]="searchTerm" (input)="filterAvailableEvents()" placeholder="Titre, lieu...">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div *ngIf="filteredAvailableEvents && filteredAvailableEvents.length > 0; else noAvailableEvents">
+              <div *ngFor="let event of filteredAvailableEvents" class="event-item available">
+                <div class="event-info">
+                  <div class="event-title">
+                    <mat-icon class="s-18">event</mat-icon>
+                    <strong>{{ event.titre }}</strong>
+                  </div>
+                  <div class="event-details">
+                    <span class="event-meta">
+                      <mat-icon class="s-14">calendar_today</mat-icon>
+                      {{ event.dateDebut | date:'dd/MM/yyyy' }} - {{ event.dateFin | date:'dd/MM/yyyy' }}
+                    </span>
+                    <span class="event-meta">
+                      <mat-icon class="s-14">location_on</mat-icon>
+                      {{ event.lieu }}
+                    </span>
+                    <span class="event-meta" *ngIf="event.participants">
+                      <mat-icon class="s-14">people</mat-icon>
+                      {{ event.participants.length }} participant(s)
+                    </span>
+                  </div>
+                </div>
+
+                <div class="event-actions">
+                  <button mat-raised-button color="primary" (click)="subscribeToEvent(event.id)"
+                    matTooltip="S'inscrire">
+                    <mat-icon>add</mat-icon>
+                    Participer
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noAvailableEvents>
+              <p class="no-data">Aucun événement disponible pour le moment.</p>
+            </ng-template>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <!-- Bouton pour créer un nouvel événement -->
+      <div class="create-event-button">
+        <button mat-raised-button color="accent" (click)="openCreateEvent()">
+          <mat-icon>add</mat-icon>
+          Créer un Événement
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
