@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "projetangular-b76ff"
-  }
+    "default": "projet-angular-2025"
+  },
+  "targets": {},
+  "etags": {}
 }
