@@ -1,0 +1,65 @@
+/* ---- Header & Titre ---- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.title-gradient {
+    background: linear-gradient(45deg, #0d9488, #3b82f6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* ---- Conteneur de la Table ---- */
+.table-container {
+    border-radius: 15px;
+    background: white;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.table-header {
+    margin-bottom: 15px;
+}
+
+.filter-field {
+    width: 350px;
+}
+
+/* ---- Design de la Table ---- */
+.mat-header-cell {
+    color: #64748b !important;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.element-row:hover {
+    background-color: #f8fafc !important;
+}
+
+.bold-text {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.type-tag {
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}

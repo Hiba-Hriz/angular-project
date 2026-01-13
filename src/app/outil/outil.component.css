@@ -1,101 +1,65 @@
-/* Conteneur global pour centrer */
-.page-container {
-    width: 90%;
-    max-width: 1100px;
-    /* limite pour un rendu professionnel */
-    margin: 0 auto;
-    /* centre horizontalement */
-    padding: 10px 0;
-}
-
-
-/* ---- Action Bar ---- */
+/* ===== Action bar (Create new) ===== */
 .action-bar {
-    width: 100%;
-    display: flex !important;
-    justify-content: flex-end !important;
-    align-items: center;
-    margin: 40px 0 15px 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
 }
 
-/* Même style mais en version "bouton principal" 💙 */
 .action-bar button {
-    background: #e8f0ff;
-    /* pastel bleu */
-    border: 1px solid #c2d4ff;
-    color: #23457a;
-    font-weight: 600;
-    padding: 10px 18px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(150, 170, 220, 0.25);
-    transition: 0.25s ease;
-}
-
-.action-bar button:hover {
-    background: #d6e4ff;
-    border-color: #b3c7ff;
-    transform: translateY(-2px);
-}
-
-table {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(170, 180, 220, 0.25);
-}
-
-/* Header styling */
-th.mat-header-cell {
-    font-weight: 600;
-    text-transform: uppercase;
-    background: #eeeeee;
-}
-
-/* Row hover effect */
-tr.mat-row:hover {
-    background-color: #f2f2f2;
-    cursor: pointer;
-}
-
-/* Center actions icons */
-td mat-icon {
-    margin: 0 4px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-td mat-icon:hover {
-    transform: scale(1.2);
-}
-
-button {
-    background: #f5f7ff;
-    /* pastel très léger */
-    border: 1px solid #d5d9f5;
-    padding: 8px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 4px;
-    transition: 0.25s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-
-    box-shadow: 0 2px 4px rgba(170, 180, 220, 0.25);
+    gap: 6px;
+    padding: 8px 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #0d9488, #3b82f6);
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-button:hover {
-    background: #e7ebff;
-    border-color: #c3c8f2;
-    transform: translateY(-2px);
-}
-
-button:active {
-    transform: scale(0.97);
-}
-
-mat-icon {
+.action-bar button mat-icon {
     font-size: 20px;
-    color: #4a4f7a;
-    /* couleur sérieuse mais douce */
+}
+
+/* ===== Filter field spacing ===== */
+mat-form-field {
+    width: 350px;
+    margin-bottom: 15px;
+}
+
+/* ===== Table action buttons ===== */
+td[mat-cell] button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+/* Align edit + delete horizontally */
+td[mat-cell] {
+    vertical-align: middle;
+}
+
+td[mat-cell] button+button {
+    margin-left: 8px;
+}
+
+/* Hover effects */
+td[mat-cell] button:hover {
+    background-color: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+/* Icon colors */
+td[mat-cell] button mat-icon {
+    color: #475569;
+    font-size: 20px;
+}
+
+td[mat-cell] button:last-child mat-icon {
+    color: #dc2626;
+    /* delete */
 }

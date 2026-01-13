@@ -19,6 +19,7 @@ export class OutilComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  userType: string | null = null;
 
   constructor(
     private outilService: OutilService,
@@ -26,6 +27,9 @@ export class OutilComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userType = localStorage.getItem('userType');
+
+    console.log("Rôle actuel de l'utilisateur :", this.userType);
     this.loadData();
   }
 
@@ -57,7 +61,7 @@ export class OutilComponent implements OnInit {
       if (result) this.loadData();
     });
   }
-  
+
   /** Ouvrir dialog edit */
   openEdit(id: number) {
     const dialogRef = this.dialog.open(OutilModalComponent, {

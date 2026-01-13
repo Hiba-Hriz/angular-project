@@ -1,36 +1,35 @@
 <h2 mat-dialog-title>
-    {{ isEdit ? 'Edit Outil' : 'Add Outil' }}
+  {{ isEdit ? 'Modifier Outil' : 'Ajouter un Outil' }}
 </h2>
 
 <mat-dialog-content>
-    <mat-form-field appearance="fill" class="w-100">
-        <mat-label>Source</mat-label>
-        <input matInput [(ngModel)]="outil.source">
-    </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Source</mat-label>
+    <mat-icon matPrefix style="margin-right: 8px;">link</mat-icon>
+    <input matInput [(ngModel)]="outil.source" placeholder="Ex: GitHub, Drive...">
+  </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="outil.date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Date de création</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="outil.date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
 
-      <mat-form-field appearance="fill">
-  <mat-label>Membre</mat-label>
-  <mat-select [(ngModel)]="outil.membreId" name="membreId">
-    <mat-option *ngFor="let member of members" [value]="member.id.toString()">
-  {{ member.name }}
-</mat-option>
-
-  </mat-select>
-</mat-form-field>
-
-
+  <mat-form-field appearance="outline">
+    <mat-label>Membre responsable</mat-label>
+    <mat-select [(ngModel)]="outil.membreId">
+      <mat-option *ngFor="let member of members" [value]="member.id?.toString()">
+        {{ member.prenom }} {{ member.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button (click)="close()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="save()">
-        {{ isEdit ? 'Update' : 'Save' }}
-    </button>
+  <button mat-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!outil.source">
+    <mat-icon style="margin-right: 5px;">save</mat-icon>
+    {{ isEdit ? 'Mettre à jour' : 'Enregistrer' }}
+  </button>
 </mat-dialog-actions>

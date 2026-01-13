@@ -14,19 +14,21 @@ export class OutilModalComponent implements OnInit {
   outil: Outil = {
     source: '',
     date: new Date(),
-    membreId: 0, 
+    membreId: 0,
   };
 
   isEdit = false;
+
 
   constructor(
     private dialogRef: MatDialogRef<OutilModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
     private outilService: OutilService,
     private memberService: MembreService
-  ) {}
+  ) { }
 
   ngOnInit() {
+
     // Récupérer tous les membres
     this.memberService.GetAllMembres().subscribe(res => {
       this.members = res;

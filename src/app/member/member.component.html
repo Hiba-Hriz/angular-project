@@ -134,7 +134,7 @@
                 </button>
               </div>
             </ng-container>
-            <ng-template #noTool><span class="text-muted">-</span></ng-template>
+            <ng-template #noTool><span class="text-muted">Aucun outil</span></ng-template>
           </div>
         </td>
       </ng-container>
@@ -166,10 +166,7 @@
               <mat-icon>edit_note</mat-icon>
               <span>Modifier</span>
             </button>
-            <button mat-menu-item [routerLink]="['/', element.id]" class="menu-view">
-              <mat-icon>visibility</mat-icon>
-              <span>Détails</span>
-            </button>
+
             <div mat-divider></div>
             <button mat-menu-item (click)="delete(element.id)" class="menu-delete">
               <mat-icon>delete_outline</mat-icon>

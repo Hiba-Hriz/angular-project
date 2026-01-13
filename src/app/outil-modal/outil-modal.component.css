@@ -1,64 +1,65 @@
-/* ---- Dialog Container ---- */
-.mat-dialog-container {
-    padding: 50px !important;
-    border-radius: 14px !important;
-    background: #ffffff;
-    box-shadow: 0 4px 15px rgba(150, 170, 220, 0.25);
+/* ================= Titre ================= */
+h2[mat-dialog-title] {
+    margin: 0;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e0e0e0;
 
-    width: 600px !important;
-    /* ⇦ AJOUTE CETTE LIGNE */
-    max-width: 90vw !important;
-    /* pour éviter que ça déborde */
+    color: #3f51b5;
+    /* primaire Material */
+    font-weight: 600;
+    font-size: 1.45rem;
+    letter-spacing: 0.3px;
 }
 
-/* ---- Content ---- */
+/* ================= Contenu ================= */
 mat-dialog-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 10px;
+    gap: 14px;
+    padding-top: 20px !important;
+
+    min-width: 360px;
 }
 
-/* Form fields style */
+/* ================= Champs ================= */
 mat-form-field {
     width: 100%;
 }
 
-mat-form-field input {
-    font-size: 15px;
+/* Légère amélioration visuelle du fill */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    border-radius: 8px;
 }
 
-/* ---- Dialog Actions ---- */
+/* ================= Actions ================= */
 mat-dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 15px;
+    padding: 16px 0 6px 0 !important;
+    border-top: 1px solid #e0e0e0;
 }
 
-/* ---- Buttons matching the app's pastel style ---- */
-mat-dialog-actions button {
-    background: #e8f0ff !important;
-    border: 1px solid #c2d4ff !important;
-    color: #23457a !important;
+/* Bouton Cancel */
+button[mat-button] {
+    margin-right: 10px;
+    color: #757575;
+    font-weight: 500;
+}
+
+/* Bouton principal */
+button[mat-raised-button] {
+    padding: 0 22px;
     font-weight: 600;
-    padding: 8px 18px;
-    border-radius: 10px;
-    transition: 0.25s ease;
-    box-shadow: 0 2px 4px rgba(150, 170, 220, 0.25);
+    border-radius: 8px;
 }
 
-mat-dialog-actions button:hover {
-    background: #d6e4ff !important;
-    border-color: #b3c7ff !important;
-    transform: translateY(-2px);
+/* Hover doux */
+button[mat-button]:hover,
+button[mat-raised-button]:hover {
+    opacity: 0.95;
 }
 
-mat-dialog-actions button.mat-primary {
-    background: #cddcff !important;
-    border-color: #a9bfff !important;
-}
-
-mat-dialog-actions button.mat-primary:hover {
-    background: #b8cbff !important;
+/* ================= Responsive ================= */
+@media (max-width: 480px) {
+    mat-dialog-content {
+        min-width: 100%;
+    }
 }
